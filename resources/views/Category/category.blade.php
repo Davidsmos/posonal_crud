@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Category</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+
+<body>
+    <a href="{{ route('category.create') }}" class="btn btn-primary mb-3">Create</a>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Name</th>
+                <th scope="col">Slug</th>
+                <th scope="col">Description</th>
+                <th scope="col">Status</th>
+                <th scope="col">Action</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($category as $item)
+                <tr>
+                    <td scope="row">{{ $item->id }}</td>
+                    <td>{{ $item->name }}
+                        @if ($item->image)
+                            <img src="{{ asset('storage/' . $item->image) }}" alt="{{ $item->name }}"
+                                style="max-width: 100px; height: auto;">
+                        @else
+                            No Image
+                        @endif
+                    </td>
+                    <td>{{ $item->slug }}</td>
+                    <td>{{ $item->description }}</td>
+                    <td>{{ $item->status }}</td>
+                    <td>
+                        <a href="{{ route('category.edit', $item->id) }}" class="btn btn-primary"> Edit</a>
+                        <form action="{{ route('category.destroy', $item->id) }}" method="POST"
+                            style="display:inline;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger">delete</button>
+                        </form>
+                    </td>
+
+
+
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
+    </script>
+</body>
+
+</html>
