@@ -16,9 +16,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-
-        return view('products.product');
-
+    $products = Product::all();
+    return view('products.product', ['products' => $products]);
     }
 
     /**
@@ -28,7 +27,8 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('products.CreateProduct');
+       $categories = Category::all(); // Fetch categories for the form
+        return view('products.CreateProduct', ['categories' => $categories]);
     }
 
     /**
@@ -39,9 +39,16 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        Product::create($request->all());
-
-        return redirect(route('products.index'));
+        // dd($request->all());
+      Product::create([
+        'name'=> $request->name,
+        'slug'=> $request->slug,
+        'description'=> $request->description,
+        'price'=> $request->price,
+        'qty'=> $request->qty,
+        'category_id'=> $request->category_id,
+      ]);
+      return redirect(route('products.index'));
     }
 
     /**
@@ -63,19 +70,29 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        //
+        $categories=Product::find($id);
+        if (!$categories) {
+            return 'No date';
+        }
+        // derm3 yk data UpdateProdut=>tv kan $categories
+        return view('products.UpdateProduct',['categories'=>$categories]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function update(Request $request, $id)
     {
-        //
+
+        $categories=Product::find($id);
+        if (!$categories) {
+            return 'No date';
+        }
+
+        $categories->name=$request->name;
+        $categories->slug=$request->slug;
+        $categories->description=$request->description;
+        $categories->status=$request->status;
+        $categories->save();
+        return redirect(route('products.index'));
     }
 
     /**

@@ -13,36 +13,46 @@
 
 
 <body>
-    <form action="{{ route('category.update', $category->id) }}" method="POST">
+    <form action="{{ route('products.update', $categories->id) }}" method="POST">
         @csrf
         @method('PUT')
         <div class="card">
-            <h1 class="text-center">Update Category</h1>
+            <h1 class="text-center">Update Products</h1>
             <div class="card-header">
             </div>
             <div class="card-body">
                 <div class="mb-3">
                     <label for="name" class="form-label">Name</label>
-                    <input type="name" name="name" class="form-control"value="{{ $category->name }}" required>
+                    <input type="name" name="name" class="form-control"value="{{ $categories->name }}" required>
                 </div>
                 <div class="mb-3">
                     <label for="Slug" class="form-label">Slug</label>
-                    <input type="Slug" name="slug" class="form-control"value="{{ $category->slug }}" required>
+                    <input type="Slug" name="slug" class="form-control"value="{{ $categories->slug }}" required>
                 </div>
                 <div class="mb-3">
                     <label for="description" class="form-label">Description</label>
                     <input type="description" name="description"
-                        class="form-control"value="{{ $category->description }}" required>
+                        class="form-control"value="{{ $categories->description }}" required>
+                </div>
+                <div class="mb-3">
+                    <label for="price" class="form-label">price</label>
+                    <input type="number" name="price" class="form-control"value="{{ $categories->price }}" required>
+                </div>
+                <div class="mb-3">
+                    <label for="qty" class="form-label">qty</label>
+                    <input type="number" name="qty" class="form-control"value="{{ $categories->qty }}" required>
                 </div>
                 {{-- <div class="mb-3">
                     <label for="image" class="form-label">Image</label>
                     <input type="file" name="image" class="form-control"accept="image/*">
                 </div> --}}
                 <div class="mb-3">
-                    <select class="form-select" name="status">
-                        <option selected>Select </option>
-                        <option value="1">Active</option>
-                        <option value="0">In-Active</option>
+                    <label for="category_id" class="form-label">Category</label>
+                    <select class="form-select" name="category_id" id="category_id" required>
+                        <option value="" disabled selected>Choose category</option>
+                        @foreach ($categories as $item)
+                            <option value="{{ $item->id }}">{{ $item->name }}</option>
+                        @endforeach
                     </select>
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
