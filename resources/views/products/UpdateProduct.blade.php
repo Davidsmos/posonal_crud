@@ -42,15 +42,12 @@
                     <label for="qty" class="form-label">qty</label>
                     <input type="number" name="qty" class="form-control"value="{{ $categories->qty }}" required>
                 </div>
-                {{-- <div class="mb-3">
-                    <label for="image" class="form-label">Image</label>
-                    <input type="file" name="image" class="form-control"accept="image/*">
-                </div> --}}
+
                 <div class="mb-3">
                     <label for="category_id" class="form-label">Category</label>
                     <select class="form-select" name="category_id" id="category_id" required>
                         <option value="" disabled selected>Choose category</option>
-                        @foreach ($categories as $item)
+                        @foreach ($allCategories as $item)
                             <option value="{{ $item->id }}">{{ $item->name }}</option>
                         @endforeach
                     </select>

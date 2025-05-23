@@ -68,14 +68,20 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+   public function edit($id)
     {
-        $categories=Product::find($id);
-        if (!$categories) {
-            return 'No date';
-        }
-        // derm3 yk data UpdateProdut=>tv kan $categories
-        return view('products.UpdateProduct',['categories'=>$categories]);
+        $item = Product::findorfail($id);
+    if (!$item) {
+        return redirect()->route('products.index');
+    }
+
+    // Fetch all categories for the dropdown
+    $category= Category::all(); // Corrected to use Category model
+
+    return view('products.UpdateProduct', [
+        'item' => $item, // Pass the single product as $categories to match the form
+        'allCategories' => $category // Pass categories for the dropdown
+    ]);
     }
 
 
@@ -90,7 +96,9 @@ class ProductController extends Controller
         $categories->name=$request->name;
         $categories->slug=$request->slug;
         $categories->description=$request->description;
-        $categories->status=$request->status;
+        $categories->price=$request->price;
+        $categories->qty=$request->qty;
+        $categories->category_id=$request->category_id;
         $categories->save();
         return redirect(route('products.index'));
     }
@@ -103,6 +111,11 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $categories=Product::find($id);
+        if (!$categories) {
+            return 'No date';
+        }
+        $categories->delete   ($categories->$id);
+        return redirect(route('products.index'));
     }
 }
